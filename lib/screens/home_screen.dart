@@ -131,6 +131,100 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void deleteBranch(int branchId) {
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        backgroundColor: colorWhite,
+        insetPadding: REdgeInsets.symmetric(horizontal: 16),
+        child: Container(
+          decoration: BoxDecoration(
+            color: colorWhite,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: REdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Delete Branch",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: colorBlack,
+                  ),
+                ),
+                Gap(16.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: Container(
+                        height: 45.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          border: Border.all(
+                            color: colorRed,
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              color: colorRed,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        branchController.deleteBranch(branchId);
+                        Get.back();
+                      },
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: Container(
+                        height: 45.h,
+                        width: 140.w,
+                        decoration: BoxDecoration(
+                          color: colorGreen,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              color: colorWhite,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,7 +310,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Gap(12.w),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      deleteBranch(branch.id);
+                                    },
                                     style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(8),
                                         minimumSize: const Size(50, 20),

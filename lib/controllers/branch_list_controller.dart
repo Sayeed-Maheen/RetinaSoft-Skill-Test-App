@@ -96,4 +96,38 @@ class BranchController extends GetxController {
       print('Error: $e');
     }
   }
+
+  Future<void> deleteBranch(int branchId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('accessToken');
+      print('Retrieved token: $token');
+      if (token == null) {
+        CustomToast.showToast("Error, ${'No token found'}");
+        return;
+      }
+
+      final response = await http.delete(
+        Uri.parse(
+            'https://skill-test.retinasoft.com.bd/api/v1/admin/branch/$branchId/delete'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print('Delete Response status: ${response.statusCode}');
+      print('Delete Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        CustomToast.showToast("Branch deleted successfully");
+        await fetchBranches();
+      } else {
+        CustomToast.showToast("Error, ${'Failed to delete branch'}");
+        print('Error: ${response.body}');
+      }
+    } catch (e) {
+      CustomToast.showToast("Error, ${'Failed to delete branch: $e'}");
+      print('Error: $e');
+    }
+  }
 }
