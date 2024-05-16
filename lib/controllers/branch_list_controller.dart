@@ -59,4 +59,41 @@ class BranchController extends GetxController {
       isLoading(false);
     }
   }
+
+  Future<void> updateBranch(Branch branch) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('accessToken');
+      print('Retrieved token: $token');
+      if (token == null) {
+        CustomToast.showToast("Error, ${'No token found'}");
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse(
+            'https://skill-test.retinasoft.com.bd/api/v1/admin/branch/${branch.id}/update'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(branch.toJson()),
+      );
+
+      print('Update Response status: ${response.statusCode}');
+      print('Update Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        CustomToast.showToast("Branch updated successfully");
+        await fetchBranches();
+        // You may update the local list if needed
+      } else {
+        CustomToast.showToast("Error, ${'Failed to update branch'}");
+        print('Error: ${response.body}');
+      }
+    } catch (e) {
+      CustomToast.showToast("Error, ${'Failed to update branch: $e'}");
+      print('Error: $e');
+    }
+  }
 }
