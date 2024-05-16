@@ -7,8 +7,10 @@ import '../utils/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
+  final Widget? action;
 
-  const CustomAppBar({Key? key, required this.text}) : super(key: key);
+  const CustomAppBar({Key? key, required this.text, this.action})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: colorWhite,
         ),
       ),
+      actions: action != null ? [action!] : null,
       title: Text(
         text,
         style: TextStyle(

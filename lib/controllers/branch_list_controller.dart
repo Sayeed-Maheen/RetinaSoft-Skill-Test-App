@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skill_test_app/widgets/custom_toast.dart';
 
 import '../models/branch_list_model.dart';
 
@@ -25,7 +26,7 @@ class BranchController extends GetxController {
       final token = prefs.getString('accessToken');
       print('Retrieved token: $token');
       if (token == null) {
-        Get.snackbar('Error', 'No token found');
+        CustomToast.showToast("Error, ${'No token found'}");
         return;
       }
 
@@ -48,11 +49,11 @@ class BranchController extends GetxController {
             .map((json) => Branch.fromJson(json)));
         branches.assignAll(branchesList);
       } else {
-        Get.snackbar('Error', 'Failed to fetch branches');
+        CustomToast.showToast("Error, ${'Failed to fetch branches'}");
         print('Error: ${response.body}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch branches: $e');
+      CustomToast.showToast("Error, ${'Failed to fetch branches: $e'}");
       print('Error: $e');
     } finally {
       isLoading(false);

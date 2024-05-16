@@ -10,3 +10,4 @@ const String dontHaveAnAccount = "Don't have an account?";
 const String alreadyHaveAnAccount = "Already have an account?";
 const String login = "Login";
 const String createBranch = "Create Branch";
+const String branchList = "Branch List";

@@ -54,6 +54,7 @@ class ScrapCodes extends StatelessWidget {
         //   height: 87.h,
         //   width: 96.w,
         // ),
+
         RichText(
           text: TextSpan(
             style: TextStyle(
