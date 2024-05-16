@@ -1,0 +1,11 @@
+const String appName = "Skill Test App";
+const String helloText = "Hello there!";
+const String registerToYourAccount = "Register to your account";
+const String register = "Register";
+const String verifyOTP = "Verify OTP";
+const String welcomeBack = "Welcome Back!";
+const String loginToYourAccount = "Login to your account";
+const String sendOTP = "Send OTP";
+const String dontHaveAnAccount = "Don't have an account?";
+const String alreadyHaveAnAccount = "Already have an account?";
+const String login = "Login";
