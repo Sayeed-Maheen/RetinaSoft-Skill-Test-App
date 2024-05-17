@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:skill_test_app/screens/profile_screen.dart';
 import 'package:skill_test_app/utils/app_colors.dart';
 import 'package:skill_test_app/utils/strings.dart';
 import 'package:skill_test_app/widgets/custom_appbar.dart';
@@ -236,7 +237,8 @@ class _HomeScreenState extends State<HomeScreen> {
             color: colorWhite,
           ),
           onPressed: () {
-            _logoutController.logout();
+            //_logoutController.logout();
+            Get.to(() => ProfileScreen());
           },
         ),
       ),

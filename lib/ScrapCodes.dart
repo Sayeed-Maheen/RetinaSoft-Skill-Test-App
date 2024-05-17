@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'utils/app_colors.dart';
@@ -49,11 +50,11 @@ class ScrapCodes extends StatelessWidget {
             color: colorBlack,
           ),
         ),
-        // SvgPicture.asset(
-        //   "assets/images/appLogo.svg",
-        //   height: 87.h,
-        //   width: 96.w,
-        // ),
+        SvgPicture.asset(
+          "assets/images/appLogo.svg",
+          height: 87.h,
+          width: 96.w,
+        ),
 
         RichText(
           text: TextSpan(
