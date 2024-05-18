@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skill_test_app/screens/create_customer_supplier_screen.dart';
 
 import '../controllers/customer_supplier_controller.dart';
 
@@ -12,16 +13,17 @@ class CustomerSupplierScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          appBar: AppBar(
-            title: Text('Customers and Suppliers'),
-            bottom: TabBar(
-              tabs: [
-                Tab(text: 'Customers'),
-                Tab(text: 'Suppliers'),
-              ],
-            ),
+        appBar: AppBar(
+          title: Text('Customers and Suppliers'),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Customers'),
+              Tab(text: 'Suppliers'),
+            ],
           ),
-          body: TabBarView(children: [
+        ),
+        body: TabBarView(
+          children: [
             Obx(() {
               if (_controller.isLoading.value) {
                 return Center(child: CircularProgressIndicator());
@@ -42,27 +44,36 @@ class CustomerSupplierScreen extends StatelessWidget {
                 );
               }
             }),
-            Obx(() {
-              if (_controller.isLoading.value) {
-                return Center(child: CircularProgressIndicator());
-              } else if (_controller.suppliers.isEmpty) {
-                print('Suppliers list is empty'); // Add this line
-                return Center(child: Text('No suppliers found'));
-              } else {
-                print(
-                    'Suppliers list length: ${_controller.suppliers.length}'); // Add this line
-                return ListView.builder(
-                  itemCount: _controller.suppliers.length,
-                  itemBuilder: (context, index) {
-                    final supplier = _controller.suppliers[index];
-                    return ListTile(
-                      title: Text(supplier['name'] ?? 'No name'),
-                    );
-                  },
-                );
-              }
-            }),
-          ])),
+            Obx(
+              () {
+                if (_controller.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (_controller.suppliers.isEmpty) {
+                  print('Suppliers list is empty'); // Add this line
+                  return Center(child: Text('No suppliers found'));
+                } else {
+                  print(
+                      'Suppliers list length: ${_controller.suppliers.length}'); // Add this line
+                  return ListView.builder(
+                    itemCount: _controller.suppliers.length,
+                    itemBuilder: (context, index) {
+                      final supplier = _controller.suppliers[index];
+                      return ListTile(
+                        title: Text(supplier['name'] ?? 'No name'),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Get.to(() => CreateCustomerSupplierScreen());
+          },
+        ),
+      ),
     );
   }
 }
