@@ -20,3 +20,4 @@ const String phone = "Phone";
 const String businessTypeId = "Business Type ID";
 const String dashboard = "Dashboard";
 const String deleteAccount = "Delete Account";
+const String updateProfile = "Update Profile";

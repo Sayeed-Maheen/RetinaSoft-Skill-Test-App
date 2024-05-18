@@ -2,10 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:skill_test_app/utils/app_colors.dart';
+import 'package:skill_test_app/widgets/custom_appbar.dart';
+import 'package:skill_test_app/widgets/custom_button.dart';
+import 'package:skill_test_app/widgets/custom_form_field.dart';
+import 'package:skill_test_app/widgets/custom_toast.dart';
 
 import '../controllers/user_profile_controller.dart';
+import '../utils/strings.dart';
 
 class ProfileUpdateScreen extends StatefulWidget {
   const ProfileUpdateScreen({super.key});
@@ -24,46 +31,61 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Update Profile'),
-      ),
+      backgroundColor: colorWhite,
+      appBar: const CustomAppBar(text: updateProfile),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfilePhotoChangeModel(
-              selectedImagePath: selectedImagePath,
-              onImageSelected: (imagePath) {
-                setState(() {
-                  selectedImagePath = imagePath;
-                });
-              },
+            Center(
+              child: ProfilePhotoChangeModel(
+                selectedImagePath: selectedImagePath,
+                onImageSelected: (imagePath) {
+                  setState(() {
+                    selectedImagePath = imagePath;
+                  });
+                },
+              ),
             ),
-            TextFormField(
+            Gap(24.h),
+            CustomFormField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              hintText: "Enter Name",
+              maxlines: 1,
             ),
-            TextFormField(
+            Gap(16.h),
+            CustomFormField(
               controller: _businessTypeIdController,
+              hintText: "Enter Business Type ID",
+              maxlines: 1,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Business Type ID'),
-            ),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await controller.updateProfile(
-                  name: _nameController.text,
-                  businessTypeId:
-                      int.tryParse(_businessTypeIdController.text) ?? 0,
-                  imagePath: selectedImagePath,
-                );
-                Get.back();
-              },
-              child: Text('Update Profile'),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: REdgeInsets.all(16),
+        child: CustomButton(
+          color: colorGreen,
+          text: updateProfile,
+          onPressed: () async {
+            // Check if name and business type ID fields are empty
+            if (_nameController.text.isEmpty ||
+                _businessTypeIdController.text.isEmpty) {
+              // Show toast indicating fields are empty
+              CustomToast.showToast("Error. ${'Please fill all the fields'}");
+            } else {
+              // All fields are filled, proceed with update
+              await controller.updateProfile(
+                name: _nameController.text,
+                businessTypeId:
+                    int.tryParse(_businessTypeIdController.text) ?? 0,
+                imagePath: selectedImagePath,
+              );
+              Get.back();
+            }
+          },
         ),
       ),
     );
@@ -83,15 +105,15 @@ class ProfilePhotoChangeModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 103.h,
-      width: 103.w,
+      height: 110.w,
+      width: 110.w,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           Center(
             child: Container(
-              height: 100,
-              width: 100,
+              height: 105,
+              width: 105,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.grey[200],
@@ -101,8 +123,8 @@ class ProfilePhotoChangeModel extends StatelessWidget {
                   : ClipOval(
                       child: Image.file(
                         File(selectedImagePath),
-                        height: 100,
-                        width: 100,
+                        height: 150,
+                        width: 150,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -116,11 +138,15 @@ class ProfilePhotoChangeModel extends StatelessWidget {
             child: Container(
               height: 30,
               width: 30,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blue,
+                color: colorGreen,
               ),
-              child: Icon(Icons.camera_alt, color: Colors.white),
+              child: const Icon(
+                Icons.camera_alt,
+                color: colorWhite,
+                size: 18,
+              ),
             ),
           ),
         ],
