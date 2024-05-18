@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/customer_supplier_service.dart';
 
 class CustomerSupplierController extends GetxController {
+  static const String baseUrl = 'https://skill-test.retinasoft.com.bd/api/v1';
   final CustomerService _customerService = CustomerService();
   final SupplierService _supplierService = SupplierService();
 
@@ -55,6 +57,37 @@ class CustomerSupplierController extends GetxController {
       print('Error fetching suppliers: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<bool> deleteCustomerSupplier(int id, bool isCustomer) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final branchId = prefs.getString('branchId');
+      final token = prefs.getString('accessToken');
+      final headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+      final response = await http.delete(
+        Uri.parse('$baseUrl/admin/$branchId/customer/$id/delete'),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        print('${isCustomer ? 'Customer' : 'Supplier'} deleted successfully');
+        // Optionally, you can refresh the data after successful deletion
+        fetchCustomers();
+        fetchSuppliers();
+        return true;
+      } else {
+        print(
+            'Failed to delete ${isCustomer ? 'customer' : 'supplier'}. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print(
+          'Exception occurred while deleting ${isCustomer ? 'customer' : 'supplier'}: $e');
+      return false;
     }
   }
 }

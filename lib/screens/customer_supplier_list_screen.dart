@@ -14,6 +14,8 @@ class CustomerSupplierScreen extends StatelessWidget {
   final CustomerSupplierController _controller =
       Get.put(CustomerSupplierController());
 
+  CustomerSupplierScreen({super.key});
+
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   Future<void> _refreshData() async {
@@ -60,52 +62,119 @@ class CustomerSupplierScreen extends StatelessWidget {
                     padding: REdgeInsets.only(left: 16, right: 16, top: 16),
                     itemBuilder: (context, index) {
                       final customer = _controller.customers[index];
-                      return InkWell(
-                        onTap: () {
-                          Get.to(() => UpdateCustomerSupplierScreen(
-                                customerId: customer['id'],
-                                isCustomer: true,
-                              ));
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: REdgeInsets.all(16),
-                          margin: REdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            color: colorGreenLight,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Name: ${capitalize(customer['name'] ?? 'No name')}",
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: colorBlack,
-                                ),
+                      return Container(
+                        width: double.infinity,
+                        padding: REdgeInsets.all(16),
+                        margin: REdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          color: colorGreenLight,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Name: ${capitalize(customer['name'] ?? 'No name')}",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: colorBlack,
                               ),
-                              Gap(4.h),
-                              Text(
-                                "Phone: ${capitalize(customer['phone'] ?? 'No phone')}",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: colorBlack,
-                                ),
+                            ),
+                            Gap(4.h),
+                            Text(
+                              "Phone: ${capitalize(customer['phone'] ?? 'No phone')}",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: colorBlack,
                               ),
-                              Gap(2.h),
-                              Text(
-                                "Balance: ${capitalize(customer['balance'] ?? 'No balance')}",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: colorBlack,
-                                ),
+                            ),
+                            Gap(2.h),
+                            Text(
+                              "Balance: ${capitalize(customer['balance'] ?? 'No balance')}",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: colorBlack,
                               ),
-                            ],
-                          ),
+                            ),
+                            Gap(12.h),
+                            Divider(
+                              color: colorGreen,
+                              height: 1.h,
+                            ),
+                            Gap(4.h),
+                            Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.to(() => UpdateCustomerSupplierScreen(
+                                          customerId: customer['id'],
+                                          isCustomer: true,
+                                        ));
+                                  },
+                                  style: TextButton.styleFrom(
+                                      padding: const EdgeInsets.all(8),
+                                      minimumSize: const Size(50, 20),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap),
+                                  child: Text(
+                                    "Update",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: colorGreen,
+                                    ),
+                                  ),
+                                ),
+                                Gap(12.w),
+                                TextButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Confirm Delete"),
+                                          content: Text(
+                                              "Are you sure you want to delete this customer?"),
+                                          actions: [
+                                            TextButton(
+                                              child: Text("Cancel"),
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                            ),
+                                            TextButton(
+                                              child: Text("Delete"),
+                                              onPressed: () {
+                                                _controller
+                                                    .deleteCustomerSupplier(
+                                                        customer['id'], true);
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  style: TextButton.styleFrom(
+                                      padding: const EdgeInsets.all(8),
+                                      minimumSize: const Size(50, 20),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap),
+                                  child: Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: colorRed,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       );
                     },
@@ -171,6 +240,81 @@ class CustomerSupplierScreen extends StatelessWidget {
                                   color: colorBlack,
                                 ),
                               ),
+                              Gap(12.h),
+                              Divider(
+                                color: colorGreen,
+                                height: 1.h,
+                              ),
+                              Gap(4.h),
+                              Row(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.to(() => UpdateCustomerSupplierScreen(
+                                            customerId: supplier['id'],
+                                            isCustomer: false,
+                                          ));
+                                    },
+                                    style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.all(8),
+                                        minimumSize: const Size(50, 20),
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap),
+                                    child: Text(
+                                      "Update",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: colorGreen,
+                                      ),
+                                    ),
+                                  ),
+                                  Gap(12.w),
+                                  TextButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text("Confirm Delete"),
+                                            content: Text(
+                                                "Are you sure you want to delete this customer?"),
+                                            actions: [
+                                              TextButton(
+                                                child: Text("Cancel"),
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                              ),
+                                              TextButton(
+                                                child: Text("Delete"),
+                                                onPressed: () {
+                                                  _controller
+                                                      .deleteCustomerSupplier(
+                                                          supplier['id'], true);
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(
+                                        padding: const EdgeInsets.all(8),
+                                        minimumSize: const Size(50, 20),
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap),
+                                    child: Text(
+                                      "Delete",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: colorRed,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         );

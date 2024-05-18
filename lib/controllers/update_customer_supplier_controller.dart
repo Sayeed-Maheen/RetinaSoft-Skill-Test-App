@@ -1,10 +1,13 @@
-// update_customer_supplier_controller.dart
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateCustomerSupplierController extends GetxController {
   static const String baseUrl = 'https://skill-test.retinasoft.com.bd/api/v1';
+  final _type = 0.obs;
+
+  int get type => _type.value; // Return the plain int value
+  set type(int value) => _type.value = value; // Set the value using RxInt
 
   Future<bool> updateCustomerSupplier(
     int id,
@@ -24,7 +27,8 @@ class UpdateCustomerSupplierController extends GetxController {
       final token = prefs.getString('accessToken');
       final headers = {
         'Authorization': 'Bearer $token',
-        'Content-Type': 'multipart/form-data',
+        'Content-Type':
+            'application/x-www-form-urlencoded', // Changed to x-www-form-urlencoded for easier debugging
       };
       final request = http.MultipartRequest(
         'POST',

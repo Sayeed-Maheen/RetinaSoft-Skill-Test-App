@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/update_customer_supplier_controller.dart';
+import '../utils/app_colors.dart';
 
 class UpdateCustomerSupplierScreen extends StatefulWidget {
   final int customerId;
@@ -34,6 +35,8 @@ class _UpdateCustomerSupplierScreenState
   @override
   void initState() {
     super.initState();
+    _controller.type =
+        widget.isCustomer ? 0 : 1; // Initialize type based on isCustomer
     _fetchData();
   }
 
@@ -153,6 +156,32 @@ class _UpdateCustomerSupplierScreenState
                   }
                   return null;
                 },
+              ),
+              Obx(
+                () => RadioListTile(
+                  title: const Text('Customer'),
+                  value: 0,
+                  groupValue: _controller.type,
+                  onChanged: (value) {
+                    if (value != null) {
+                      _controller.type = value;
+                    }
+                  },
+                  activeColor: colorGreen,
+                ),
+              ),
+              Obx(
+                () => RadioListTile(
+                  title: const Text('Supplier'),
+                  value: 1,
+                  groupValue: _controller.type,
+                  onChanged: (value) {
+                    if (value != null) {
+                      _controller.type = value;
+                    }
+                  },
+                  activeColor: colorGreen,
+                ),
               ),
             ],
           ),
