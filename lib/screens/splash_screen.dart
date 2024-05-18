@@ -6,10 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_test_app/screens/login_screen.dart';
+import 'package:skill_test_app/screens/my_bottom_nav.dart';
 import 'package:skill_test_app/utils/app_colors.dart';
 
 import '../utils/image_path.dart';
-import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (accessToken != null) {
       // User is logged in
-      _initialScreen = HomeScreen();
+      _initialScreen = const MyBottomNav();
     } else {
       // User is not logged in
       _initialScreen = const LoginScreen();

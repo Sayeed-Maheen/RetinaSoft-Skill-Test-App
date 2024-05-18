@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:skill_test_app/screens/profile_screen.dart';
 import 'package:skill_test_app/utils/app_colors.dart';
 import 'package:skill_test_app/utils/strings.dart';
 import 'package:skill_test_app/widgets/custom_appbar.dart';
 import 'package:skill_test_app/widgets/custom_form_field.dart';
 
 import '../controllers/branch_list_controller.dart';
-import '../controllers/logout_controller.dart';
 import '../models/branch_list_model.dart';
 import 'create_branch_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final LogoutController _logoutController = Get.put(LogoutController());
-
+class _DashboardScreenState extends State<DashboardScreen> {
   final BranchController branchController = Get.put(BranchController());
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
@@ -229,19 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        text: branchList,
-        action: IconButton(
-          icon: const Icon(
-            Icons.logout,
-            color: colorWhite,
-          ),
-          onPressed: () {
-            //_logoutController.logout();
-            Get.to(() => ProfileScreen());
-          },
-        ),
-      ),
+      appBar: const CustomAppBar(text: branchList),
       body: Obx(
         () {
           if (branchController.isLoading.value) {

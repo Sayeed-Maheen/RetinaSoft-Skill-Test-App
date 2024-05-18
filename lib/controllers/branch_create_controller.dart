@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skill_test_app/screens/home_screen.dart';
+import 'package:skill_test_app/screens/dashboard_screen.dart';
 import 'package:skill_test_app/widgets/custom_toast.dart';
 
 class BranchCreateController extends GetxController {
@@ -49,7 +49,7 @@ class BranchCreateController extends GetxController {
         if (jsonData['status'] == 200) {
           CustomToast.showToast("Success', 'Branch created successfully");
           nameController.clear();
-          Get.off(() => HomeScreen());
+          Get.off(() => DashboardScreen());
         } else {
           CustomToast.showToast("Error, ${jsonData['msg']}");
         }

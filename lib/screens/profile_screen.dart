@@ -7,20 +7,125 @@ import 'package:skill_test_app/screens/profile_update_screen.dart';
 import 'package:skill_test_app/utils/app_colors.dart';
 import 'package:skill_test_app/widgets/custom_appbar.dart';
 
+import '../controllers/logout_controller.dart';
 import '../controllers/user_profile_controller.dart';
 import '../utils/strings.dart';
+import 'login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   final ProfileController controller = Get.put(ProfileController());
+  final LogoutController _logoutController = Get.put(LogoutController());
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+  Future<bool> _showConfirmationDialog(BuildContext context) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Delete Account'),
+            content: Text(
+                'Are you sure you want to delete your account? This action cannot be undone.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Delete'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
 
   ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(text: profile),
+      appBar: CustomAppBar(
+        text: profile,
+        action: Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: GestureDetector(
+              onTap: () {
+                showMenu(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(16),
+                    ),
+                  ),
+                  color: colorWhite,
+                  context: context,
+                  position: RelativeRect.fromLTRB(
+                    800.0,
+                    80.0,
+                    MediaQuery.of(context).size.width - 800,
+                    MediaQuery.of(context).size.height - 80.0,
+                  ),
+                  items: <PopupMenuEntry<dynamic>>[
+                    PopupMenuItem(
+                      onTap: () {
+                        _logoutController.logout();
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.logout_rounded,
+                            color: colorBlack,
+                            size: 18,
+                          ),
+                          Gap(8.w),
+                          Text(
+                            logout,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: colorBlack,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuDivider(height: 1),
+                    PopupMenuItem(
+                      onTap: () async {
+                        bool confirmed = await _showConfirmationDialog(context);
+                        if (confirmed) {
+                          await controller.deleteAccount();
+                          Get.offAll(() => const LoginScreen());
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.delete_forever,
+                            color: colorBlack,
+                            size: 18,
+                          ),
+                          Gap(8.w),
+                          Text(
+                            deleteAccount,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: colorBlack,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+              child: const Icon(
+                Icons.more_vert,
+                color: colorWhite,
+              ),
+            )),
+      ),
       body: Obx(
         () {
           if (controller.isLoading.value) {
@@ -79,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
           Get.to(() => const ProfileUpdateScreen());
         },
         child: const Icon(
-          Icons.add,
+          Icons.edit,
           color: colorWhite,
         ),
       ),

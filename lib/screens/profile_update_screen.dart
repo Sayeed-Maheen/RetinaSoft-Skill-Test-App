@@ -1,11 +1,9 @@
-// profile_update_screen.dart
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:skill_test_app/screens/login_screen.dart';
 
 import '../controllers/user_profile_controller.dart';
 
@@ -65,44 +63,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
               },
               child: Text('Update Profile'),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                bool confirmed = await _showConfirmationDialog(context);
-                if (confirmed) {
-                  await controller.deleteAccount();
-                  Get.offAll(
-                      LoginScreen()); // Ensure this matches the route name defined in your routing setup
-                }
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.red),
-              child: Text('Delete Account'),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<bool> _showConfirmationDialog(BuildContext context) async {
-    return await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Delete Account'),
-            content: Text(
-                'Are you sure you want to delete your account? This action cannot be undone.'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Delete'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
   }
 }
 

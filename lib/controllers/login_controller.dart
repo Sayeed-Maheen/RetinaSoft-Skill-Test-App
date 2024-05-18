@@ -6,9 +6,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skill_test_app/screens/home_screen.dart';
 import 'package:skill_test_app/widgets/custom_toast.dart';
 
+import '../screens/my_bottom_nav.dart';
 import '../utils/app_colors.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_form_field.dart';
@@ -98,7 +98,7 @@ class LoginController extends GetxController {
             // Show toast
             CustomToast.showToast('Login successful');
             // Navigate to home screen
-            Get.offAll(() => HomeScreen());
+            Get.offAll(() => const MyBottomNav());
           } else {
             print('Error: api_token is null');
             CustomToast.showToast('Error: api_token is null');

@@ -6,9 +6,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skill_test_app/screens/home_screen.dart';
 import 'package:skill_test_app/widgets/custom_toast.dart';
 
+import '../screens/my_bottom_nav.dart';
 import '../utils/app_colors.dart';
 import '../utils/strings.dart';
 import '../widgets/custom_button.dart';
@@ -108,9 +108,11 @@ class RegisterController extends GetxController {
           // Handle successful sign-in
           print('Sign-in successful');
           final token = data['response_user']['api_token'];
+          final branchId = data['response_user']['branch_id'];
           final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('branchId', branchId.toString());
           prefs.setString('accessToken', token);
-          Get.offAll(() => HomeScreen());
+          Get.offAll(() => const MyBottomNav());
           CustomToast.showToast('Sign-in successful');
         } else {
           // Handle error
