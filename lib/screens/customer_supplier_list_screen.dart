@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:skill_test_app/screens/create_customer_supplier_screen.dart';
+import 'package:skill_test_app/screens/update_customer_supplier_screen.dart';
 import 'package:skill_test_app/utils/app_colors.dart';
 import 'package:skill_test_app/widgets/custom_appbar.dart';
 
@@ -59,44 +60,52 @@ class CustomerSupplierScreen extends StatelessWidget {
                     padding: REdgeInsets.only(left: 16, right: 16, top: 16),
                     itemBuilder: (context, index) {
                       final customer = _controller.customers[index];
-                      return Container(
-                        width: double.infinity,
-                        padding: REdgeInsets.all(16),
-                        margin: REdgeInsets.only(bottom: 12),
-                        decoration: BoxDecoration(
-                          color: colorGreenLight,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Name: ${capitalize(customer['name'] ?? 'No name')}",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: colorBlack,
+                      return InkWell(
+                        onTap: () {
+                          Get.to(() => UpdateCustomerSupplierScreen(
+                                customerId: customer['id'],
+                                isCustomer: true,
+                              ));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: REdgeInsets.all(16),
+                          margin: REdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
+                            color: colorGreenLight,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Name: ${capitalize(customer['name'] ?? 'No name')}",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: colorBlack,
+                                ),
                               ),
-                            ),
-                            Gap(4.h),
-                            Text(
-                              "Phone: ${capitalize(customer['phone'] ?? 'No phone')}",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                color: colorBlack,
+                              Gap(4.h),
+                              Text(
+                                "Phone: ${capitalize(customer['phone'] ?? 'No phone')}",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: colorBlack,
+                                ),
                               ),
-                            ),
-                            Gap(2.h),
-                            Text(
-                              "Balance: ${capitalize(customer['balance'] ?? 'No balance')}",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                color: colorBlack,
+                              Gap(2.h),
+                              Text(
+                                "Balance: ${capitalize(customer['balance'] ?? 'No balance')}",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: colorBlack,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
