@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:skill_test_app/screens/customer_supplier_list_screen.dart';
 import 'package:skill_test_app/utils/app_colors.dart';
 import 'package:skill_test_app/utils/strings.dart';
 import 'package:skill_test_app/widgets/custom_appbar.dart';
@@ -225,7 +226,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(text: branchList),
+      appBar: CustomAppBar(
+        text: branchList,
+        action: IconButton(
+            onPressed: () {
+              Get.to(CustomerSupplierScreen());
+            },
+            icon: Icon(Icons.add)),
+      ),
       body: Obx(
         () {
           if (branchController.isLoading.value) {
