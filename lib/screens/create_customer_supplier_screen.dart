@@ -1,11 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:skill_test_app/utils/app_colors.dart';
+import 'package:skill_test_app/widgets/custom_appbar.dart';
+import 'package:skill_test_app/widgets/custom_button.dart';
+import 'package:skill_test_app/widgets/custom_form_field.dart';
+import 'package:skill_test_app/widgets/custom_toast.dart';
 
 import '../controllers/create_customer_supplier_controller.dart';
+import '../utils/strings.dart';
 
 class CreateCustomerSupplierScreen extends StatefulWidget {
+  const CreateCustomerSupplierScreen({super.key});
+
   @override
   _CreateCustomerSupplierScreenState createState() =>
       _CreateCustomerSupplierScreenState();
@@ -23,23 +31,22 @@ class _CreateCustomerSupplierScreenState
   final _postCodeController = TextEditingController();
   final _cityController = TextEditingController();
   final _stateController = TextEditingController();
-  File? _image;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Customer/Supplier'),
-      ),
+      backgroundColor: colorWhite,
+      appBar: const CustomAppBar(text: createCustomerSupplier),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: REdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
+              CustomFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                hintText: "Enter Name",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a name';
@@ -47,9 +54,12 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(labelText: 'Phone'),
+                hintText: "Enter Phone",
+                maxlines: 1,
+                keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a phone number';
@@ -57,9 +67,11 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                hintText: "Enter Email",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an email';
@@ -67,9 +79,11 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _addressController,
-                decoration: InputDecoration(labelText: 'Address'),
+                hintText: "Enter Address",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an address';
@@ -77,9 +91,11 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _areaController,
-                decoration: InputDecoration(labelText: 'Area'),
+                hintText: "Enter Area",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an area';
@@ -87,9 +103,11 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _postCodeController,
-                decoration: InputDecoration(labelText: 'Post Code'),
+                hintText: "Enter Post Code",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a post code';
@@ -97,9 +115,11 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _cityController,
-                decoration: InputDecoration(labelText: 'City'),
+                hintText: "Enter City",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a city';
@@ -107,9 +127,11 @@ class _CreateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _stateController,
-                decoration: InputDecoration(labelText: 'State'),
+                hintText: "Enter State",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a state';
@@ -119,7 +141,8 @@ class _CreateCustomerSupplierScreenState
               ),
               Obx(
                 () => RadioListTile(
-                  title: Text('Customer'),
+                  activeColor: colorGreen,
+                  title: const Text('Customer'),
                   value: 0,
                   groupValue: _controller.type,
                   onChanged: (value) {
@@ -129,7 +152,8 @@ class _CreateCustomerSupplierScreenState
               ),
               Obx(
                 () => RadioListTile(
-                  title: Text('Supplier'),
+                  activeColor: colorGreen,
+                  title: const Text('Supplier'),
                   value: 1,
                   groupValue: _controller.type,
                   onChanged: (value) {
@@ -137,51 +161,47 @@ class _CreateCustomerSupplierScreenState
                   },
                 ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    final isSuccess = _controller.type == 0
-                        ? await _controller.createCustomer(
-                            _nameController.text,
-                            _phoneController.text,
-                            _emailController.text,
-                            _addressController.text,
-                            _areaController.text,
-                            _postCodeController.text,
-                            _cityController.text,
-                            _stateController.text,
-                          )
-                        : await _controller.createSupplier(
-                            _nameController.text,
-                            _phoneController.text,
-                            _emailController.text,
-                            _addressController.text,
-                            _areaController.text,
-                            _postCodeController.text,
-                            _cityController.text,
-                            _stateController.text,
-                          );
-                    if (isSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              '${_controller.type == 0 ? 'Customer' : 'Supplier'} created successfully'),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Failed to create ${_controller.type == 0 ? 'customer' : 'supplier'}'),
-                        ),
-                      );
-                    }
-                  }
-                },
-                child: Text('Create'),
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: REdgeInsets.only(left: 16, right: 16, bottom: 16),
+        child: CustomButton(
+          color: colorGreen,
+          text: create,
+          onPressed: () async {
+            if (_formKey.currentState!.validate()) {
+              final isSuccess = _controller.type == 0
+                  ? await _controller.createCustomer(
+                      _nameController.text,
+                      _phoneController.text,
+                      _emailController.text,
+                      _addressController.text,
+                      _areaController.text,
+                      _postCodeController.text,
+                      _cityController.text,
+                      _stateController.text,
+                    )
+                  : await _controller.createSupplier(
+                      _nameController.text,
+                      _phoneController.text,
+                      _emailController.text,
+                      _addressController.text,
+                      _areaController.text,
+                      _postCodeController.text,
+                      _cityController.text,
+                      _stateController.text,
+                    );
+              if (isSuccess) {
+                CustomToast.showToast(
+                    '${_controller.type == 0 ? 'Customer' : 'Supplier'} created successfully');
+              } else {
+                CustomToast.showToast(
+                    'Failed to create ${_controller.type == 0 ? 'customer' : 'supplier'}');
+              }
+            }
+          },
         ),
       ),
     );

@@ -8,8 +8,9 @@ import '../utils/app_colors.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
   final Widget? action;
+  final PreferredSizeWidget? bottom; // Optional bottom property
 
-  const CustomAppBar({Key? key, required this.text, this.action})
+  const CustomAppBar({Key? key, required this.text, this.action, this.bottom})
       : super(key: key);
 
   @override
@@ -36,9 +37,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: colorWhite,
         ),
       ),
+      bottom: bottom, // Add bottom to AppBar
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0));
 }

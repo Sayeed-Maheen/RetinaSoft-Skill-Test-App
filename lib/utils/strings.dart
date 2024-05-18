@@ -21,3 +21,6 @@ const String businessTypeId = "Business Type ID";
 const String dashboard = "Dashboard";
 const String deleteAccount = "Delete Account";
 const String updateProfile = "Update Profile";
+const String customersAndSuppliers = "Customers and Suppliers";
+const String createCustomerSupplier = "Create Customer/Supplier";
+const String create = "Create";
