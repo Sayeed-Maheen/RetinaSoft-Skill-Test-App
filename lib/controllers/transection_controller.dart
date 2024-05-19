@@ -188,4 +188,45 @@ class TransactionController extends GetxController {
       isLoading(false);
     }
   }
+
+  Future<void> deleteTransaction(int transactionId) async {
+    try {
+      isLoading(true);
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('accessToken');
+
+      if (token == null) {
+        print('Error: No token found');
+        CustomToast.showToast('Error: No token found');
+        return;
+      }
+
+      final url =
+          '$baseUrl/admin/$branchId/customer/transaction/$transactionId/delete';
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print('Delete Transaction Response status code: ${response.statusCode}');
+      print('Delete Transaction Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        transactions
+            .removeWhere((transaction) => transaction.id == transactionId);
+        CustomToast.showToast('Transaction Deleted Successfully');
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+        CustomToast.showToast('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error deleting transaction: $e');
+      CustomToast.showToast('Error deleting transaction: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
 }

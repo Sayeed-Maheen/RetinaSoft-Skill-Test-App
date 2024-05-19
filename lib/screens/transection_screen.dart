@@ -119,7 +119,8 @@ class TransactionListScreen extends StatelessWidget {
                                   Gap(12.w),
                                   TextButton(
                                     onPressed: () {
-                                      // deleteBranch(branch.id);
+                                      _showDeleteConfirmationPopup(
+                                          context, transaction);
                                     },
                                     style: TextButton.styleFrom(
                                         padding: const EdgeInsets.all(8),
@@ -195,9 +196,10 @@ class TransactionListScreen extends StatelessWidget {
               transactionController.updateTransaction(
                 Transaction(
                   id: transaction.id,
-                  transactionNo: transaction
-                      .transactionNo, // Pass the 'transactionNo' value
-                  type: transaction.type, // Pass the 'type' value
+                  transactionNo: transaction.transactionNo,
+                  // Pass the 'transactionNo' value
+                  type: transaction.type,
+                  // Pass the 'type' value
                   amount: double.parse(amountController.text),
                   transactionDate: dateController.text,
                   details: detailsController.text,
@@ -207,6 +209,35 @@ class TransactionListScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             child: Text('Update'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteConfirmationPopup(
+      BuildContext context, Transaction transaction) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Confirm Delete'),
+        content: Text('Are you sure you want to delete this transaction?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Call the deleteTransaction method from the controller
+              Get.find<TransactionController>()
+                  .deleteTransaction(transaction.id);
+              Navigator.pop(context);
+            },
+            child: Text(
+              'Delete',
+              style: TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
