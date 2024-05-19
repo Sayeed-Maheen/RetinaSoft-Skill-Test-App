@@ -24,6 +24,7 @@ const String updateProfile = "Update Profile";
 const String customersAndSuppliers = "Customers and Suppliers";
 const String createCustomerSupplier = "Create Customer/Supplier";
 const String create = "Create";
+const String update = "Update";
 const String branchListScreen = "Branch List Screen";
 const String customersAndSuppliersScreen = "Customers/Suppliers Screen";
 const String transactionsScreen = "Transactions Screen";

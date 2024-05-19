@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:skill_test_app/widgets/custom_appbar.dart';
+import 'package:skill_test_app/widgets/custom_button.dart';
+import 'package:skill_test_app/widgets/custom_form_field.dart';
+import 'package:skill_test_app/widgets/custom_toast.dart';
 
 import '../controllers/update_customer_supplier_controller.dart';
 import '../utils/app_colors.dart';
+import '../utils/strings.dart';
 
 class UpdateCustomerSupplierScreen extends StatefulWidget {
   final int customerId;
@@ -50,22 +57,19 @@ class _UpdateCustomerSupplierScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Update ${widget.isCustomer ? 'Customer' : 'Supplier'}',
-        ),
-      ),
+      backgroundColor: colorWhite,
+      appBar: CustomAppBar(
+          text: 'Update ${widget.isCustomer ? 'Customer' : 'Supplier'}'),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: REdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
+              CustomFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                ),
+                hintText: "Enter Name",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a name';
@@ -73,11 +77,12 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Phone',
-                ),
+                hintText: "Enter Phone",
+                maxlines: 1,
+                keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a phone number';
@@ -85,11 +90,11 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                ),
+                hintText: "Enter Email",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an email';
@@ -97,11 +102,11 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _addressController,
-                decoration: const InputDecoration(
-                  labelText: 'Address',
-                ),
+                hintText: "Enter Address",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an address';
@@ -109,11 +114,11 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _areaController,
-                decoration: const InputDecoration(
-                  labelText: 'Area',
-                ),
+                hintText: "Enter Area",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter an area';
@@ -121,11 +126,11 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _postCodeController,
-                decoration: const InputDecoration(
-                  labelText: 'Post Code',
-                ),
+                hintText: "Enter Post Code",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a post code';
@@ -133,11 +138,11 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _cityController,
-                decoration: const InputDecoration(
-                  labelText: 'City',
-                ),
+                hintText: "Enter City",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a city';
@@ -145,11 +150,11 @@ class _UpdateCustomerSupplierScreenState
                   return null;
                 },
               ),
-              TextFormField(
+              Gap(16.h),
+              CustomFormField(
                 controller: _stateController,
-                decoration: const InputDecoration(
-                  labelText: 'State',
-                ),
+                hintText: "Enter State",
+                maxlines: 1,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a state';
@@ -188,8 +193,8 @@ class _UpdateCustomerSupplierScreenState
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton(
+        padding: REdgeInsets.only(left: 16, right: 16, bottom: 16),
+        child: CustomButton(
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
               final updateSuccess = await _controller.updateCustomerSupplier(
@@ -207,22 +212,15 @@ class _UpdateCustomerSupplierScreenState
 
               if (updateSuccess) {
                 // Show success message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Update successful'),
-                  ),
-                );
+                CustomToast.showToast("Update successful");
               } else {
                 // Show error message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Failed to update'),
-                  ),
-                );
+                CustomToast.showToast("Failed to update");
               }
             }
           },
-          child: const Text('Update'),
+          color: colorGreen,
+          text: update,
         ),
       ),
     );
