@@ -7,6 +7,7 @@ To get started with RS Skill Test App, follow these simple steps:
 ## Install Flutter on Windows
 
 [download](https://docs.flutter.dev/get-started/install/windows) the Flutter SDK package by clicking on the following button on the webpage.
+
 When finished, the Flutter SDK should be in the C:\user\{username}\dev\flutter directory.
 
 Update your Windows PATH variable
