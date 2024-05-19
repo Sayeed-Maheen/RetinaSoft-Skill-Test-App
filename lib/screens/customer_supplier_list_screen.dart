@@ -28,6 +28,7 @@ class CustomerSupplierScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: colorWhite,
         appBar: const CustomAppBar(
           text: customersAndSuppliers,
           bottom: TabBar(
