@@ -53,7 +53,15 @@ class CustomerSupplierScreen extends StatelessWidget {
                 );
               } else if (_controller.customers.isEmpty) {
                 print('Customers list is empty');
-                return const Center(child: Text('No customers found'));
+                return RefreshIndicator(
+                  onRefresh: _refreshData,
+                  child: ListView(
+                    padding: REdgeInsets.only(top: 100.h),
+                    children: const [
+                      Center(child: Text('No customers found')),
+                    ],
+                  ),
+                );
               } else {
                 print('Customers list length: ${_controller.customers.length}');
                 return RefreshIndicator(
@@ -193,7 +201,15 @@ class CustomerSupplierScreen extends StatelessWidget {
                   );
                 } else if (_controller.suppliers.isEmpty) {
                   print('Suppliers list is empty');
-                  return const Center(child: Text('No suppliers found'));
+                  return RefreshIndicator(
+                    onRefresh: _refreshData,
+                    child: ListView(
+                      padding: REdgeInsets.only(top: 100.h),
+                      children: const [
+                        Center(child: Text('No suppliers found')),
+                      ],
+                    ),
+                  );
                 } else {
                   print(
                       'Suppliers list length: ${_controller.suppliers.length}');
