@@ -4,6 +4,10 @@
 
 To get started with RS Skill Test App, follow these simple steps:
 
+## Install Flutter on Windows
+
+[download](https://docs.flutter.dev/get-started/install/windows) the Flutter SDK package by clicking on the following button on the webpage.
+
 1. **Clone the Repository:**
 
    ```shell
@@ -13,6 +17,7 @@ To get started with RS Skill Test App, follow these simple steps:
 
    ```shell
    cd RetinaSoft-Skill-Test-App
+   
    flutter pub get
 
 3. **Run the App:**
