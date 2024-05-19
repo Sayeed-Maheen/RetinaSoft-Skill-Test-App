@@ -52,12 +52,15 @@ class LoginController extends GetxController {
           );
         } else {
           print('Error: ${data['msg']}');
+          CustomToast.showToast(data['msg'] ?? 'Invalid identifier');
         }
       } else {
         print('Error: ${response.body}');
+        CustomToast.showToast('Error: ${response.body}');
       }
     } catch (e) {
       print('Error: $e');
+      CustomToast.showToast('Error: $e');
     }
 
     _isLoading = false;
@@ -104,8 +107,9 @@ class LoginController extends GetxController {
             CustomToast.showToast('Error: api_token is null');
           }
         } else {
-          print('Error: Invalid response format');
-          CustomToast.showToast('Error: Invalid response format');
+          String errorMessage = data['msg'] ?? 'Error: Invalid response format';
+          print('Error: $errorMessage');
+          CustomToast.showToast(errorMessage);
         }
       } else {
         print('Error: ${response.body}');

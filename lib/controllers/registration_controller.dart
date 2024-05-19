@@ -70,14 +70,20 @@ class RegisterController extends GetxController {
           );
         } else {
           // Handle error
-          print('Error: ${data['msg']}');
+          String errorMsg = data['msg'] ?? 'Error occurred';
+          print('Error: $errorMsg');
+          CustomToast.showToast(errorMsg);
         }
       } else {
         // Handle error
-        print('Error: ${response.body}');
+        final data = jsonDecode(response.body);
+        String errorMsg = data['msg'] ?? 'Error occurred';
+        print('Error: $errorMsg');
+        CustomToast.showToast(errorMsg);
       }
     } catch (e) {
       print('Error: $e');
+      CustomToast.showToast('Error: $e');
     }
   }
 
