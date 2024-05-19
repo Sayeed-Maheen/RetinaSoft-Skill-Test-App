@@ -4,6 +4,20 @@
 
 To get started with RS Skill Test App, follow these simple steps:
 
+## Pre-installation Requirements
+
+Windows 10 operating system installed (Flutter will work on Windows 7 SP1 and later versions).
+
+At least 1.65 GB of free disk space (Additional free storage is needed for other tools and IDEs, if not already installed).
+
+Windows Powershell 5.0 or newer.
+
+Git for Windows version 2.0 or newer (Optional).
+
+Android Studio installed.
+
+Visual Studio 2022 with C++ (Optional).
+
 ## Install Flutter on Windows
 
 [download](https://docs.flutter.dev/get-started/install/windows) the Flutter SDK package by clicking on the following button on the webpage.
@@ -50,19 +64,12 @@ Update your Windows PATH variable
 
     To enable these changes, close and reopen any existing command prompts and PowerShell instances.
 
-1. **Clone the Repository:**
+Run Flutter doctor
 
-   ```shell
-   git clone https://github.com/Sayeed-Maheen/Git-Glimpse.git
+The flutter doctor command validates that all components of a complete Flutter development environment for Windows.
 
-2. **Install Dependencies:**
+    Open PowerShell.
 
-   ```shell
-   cd RetinaSoft-Skill-Test-App
-   
-   flutter pub get
+    To verify your installation of all the components, run the following command.
 
-3. **Run the App:**
-
-   ```shell
-   flutter run
+    C:> flutter doctor
